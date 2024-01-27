@@ -2,9 +2,13 @@ provider "aws" {
   region = "us-east-1"
 }
 resource "aws_instance" "demo-instance" {
-  ami = "ami-0a3c3a20c09d6f377"
-  instance_type = "t2.medium"
+  ami = "ami-0c7217cdde317cfec"
+  instance_type = "t2.micro"
   key_name = "first_instance"
+  for_each = toset(["Jenkins-master", "Jenkins-slave", "Ansible"])
+   tags = {
+     Name = "${each.key}"
+   }
 }
 resource "aws_security_group" "demo_sg" {
   name        = "demo_sg"
